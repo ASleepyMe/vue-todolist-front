@@ -1,0 +1,15 @@
+@font-face {
+
+    font-family: "pingfang";
+
+    src: url('./common/PingFangBold.ttf') format('Bold'),
+
+     url('./common/PingFangHeavy.ttf') format('Heavy'),
+
+     url('./common/PingFangRegular.ttf') format('Regular'),
+    
+     url('./common/PingFangMedium.ttf') format('Medium'),
+
+     url('./common/PingFangLight.ttf') format('Light');
+
+}
