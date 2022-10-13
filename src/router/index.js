@@ -3,36 +3,45 @@ import { createRouter,createWebHistory } from "vue-router";
 const routes = [{
     path:'/',
     name:'Login',
-    component:()  => import('../views/index/Login.vue')
-},{
-    path:'/todo',
-    name:'Todo',
-    component:()  => import('../views/Todo.vue')
-},{
-    path:'/dashboard',
-    name:'Dashboard',
-    component:()  => import('../views/TodoDashboard.vue')
-},{
-    path:'/setting',
-    name:'Settings',
-    component:()  => import('../views/Settings.vue')
-},{
-    path:'/about',
-    name:'About',
-    component:()  => import('../views/About.vue')
-},{
-    path:'/history',
-    name:'History',
-    component:()  => import('../views/History.vue')
-},{
-    path:'/sendmsg',
-    name:'SendMsg',
-    component:()  => import('../views/SendMsg.vue')
-},{
-    path:'/userinfo',
-    name:'UserInfo',
-    component:()  => import('../views/UserInfo.vue')
-}]
+    component:()  => import('../views/Login.vue')
+    },
+    {
+    path:'/index',
+    name:'Home',
+    component:() => import('../views/Home.vue'),
+    children:[
+        {
+            path:'/todo',
+            name:'Todo',
+            component:()  => import('../views/index/Todo.vue')
+        },{
+            path:'/dashboard',
+            name:'Dashboard',
+            component:()  => import('../views/index/TodoDashboard.vue')
+        },{
+            path:'/setting',
+            name:'Settings',
+            component:()  => import('../views/index/Settings.vue')
+        },{
+            path:'/about',
+            name:'About',
+            component:()  => import('../views/index/About.vue')
+        },{
+            path:'/history',
+            name:'History',
+            component:()  => import('../views/index/History.vue')
+        },{
+            path:'/sendmsg',
+            name:'SendMsg',
+            component:()  => import('../views/index/SendMsg.vue')
+        },{
+            path:'/userinfo',
+            name:'UserInfo',
+            component:()  => import('../views/index/UserInfo.vue')
+        }
+    ]
+},
+]
 
 
 const router = createRouter({

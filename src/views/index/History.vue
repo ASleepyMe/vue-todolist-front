@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import HistoryDoing from "../components/HistoryDoing.vue";
+import HistoryDoing from "../../components/HistoryDoing.vue";
 export default {
     components: { HistoryDoing }
 }

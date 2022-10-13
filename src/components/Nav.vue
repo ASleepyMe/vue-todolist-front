@@ -44,12 +44,12 @@
 export default {
     data() {
         return {
-            selectPath: "/",
+            selectPath: "/todo",
             routers: [
                 {
                     icon: "Edit",
                     value: "我的待办",
-                    to: "/",
+                    to: "/todo",
                 },
                 {
                     icon: "Odometer",

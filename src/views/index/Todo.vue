@@ -44,9 +44,9 @@
 
 <script>
 
-import CalandarPlus from '../components/CalandarPlus.vue';
-import CircleRating from '../components/CircleRating.vue'
-import TodoList from '../components/TodoList.vue';
+import CalandarPlus from '../../components/CalandarPlus.vue'
+import CircleRating from '../../components/CircleRating.vue'
+import TodoList from '../../components/TodoList.vue';
 
 export default {
     components: { CalandarPlus, CircleRating, TodoList },

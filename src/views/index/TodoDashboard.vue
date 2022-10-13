@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import BarChart from '../components/BarChart.vue'
-import ThingsCensus from '../components/ThingsCensus.vue';
-import TriangleEchart from '../components/TriangleEchart.vue';
+import BarChart from '../../components/BarChart.vue'
+import ThingsCensus from '../../components/ThingsCensus.vue';
+import TriangleEchart from '../../components/TriangleEchart.vue';
 export default {
     components:{
     ThingsCensus,
