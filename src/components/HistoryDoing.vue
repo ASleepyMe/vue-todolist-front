@@ -19,56 +19,9 @@
   </template>
   
   <script setup>
-  import { MoreFilled } from '@element-plus/icons-vue'
-  
-  const activities = [
-    {
-      content: 'Custom icon',
-      timestamp: '2018-04-12 20:46',
-      size: 'large',
-      type: 'primary',
-      icon: MoreFilled,
-    },
-    {
-      content: 'Custom color',
-      timestamp: '2018-04-03 20:46',
-      color: '#0bbd87',
-    },
-    {
-      content: 'Custom size',
-      timestamp: '2018-04-03 20:46',
-      size: 'large',
-    },
-    {
-      content: 'Custom hollow',
-      timestamp: '2018-04-03 20:46',
-      type: 'primary',
-      hollow: true,
-    },
-    {
-      content: 'Default node',
-      timestamp: '2018-04-03 20:46',
-    },{
-      content: 'Default node',
-      timestamp: '2018-04-03 20:46',
-    },{
-      content: 'Default node',
-      timestamp: '2018-04-03 20:46',
-    },{
-      content: 'Default node',
-      timestamp: '2018-04-03 20:46',
-    },{
-      content: 'Default node',
-      timestamp: '2018-04-03 20:46',
-    },{
-      content: 'Default node',
-      timestamp: '2018-04-03 20:46',
-    },{
-      content: 'Default node',
-      timestamp: '2018-04-03 20:46',
-    },
-    
-  ]
+
+  import useStore from '../store';
+  const activities = useStore().user.getTodoList
   </script>
   
   <style lang="less" scoped>

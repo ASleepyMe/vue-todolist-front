@@ -10,7 +10,7 @@
         <!-- 用户名 -->
           <div class="userinfo">
            
-                <p class="username">{{username}} <el-icon><EditPen /></el-icon></p>
+                <p class="username">{{username}}</p>
           
             <p class="sendcode">刻码：{{sendcode}}</p>
           </div>
@@ -32,7 +32,7 @@
 
         <div class="exit">
 
-            <el-button round type="danger">        <el-icon><SwitchButton /></el-icon> <p>注销登陆</p></el-button>
+            <el-button round type="danger" @click="exit">        <el-icon><SwitchButton /></el-icon> <p>注销登陆</p></el-button>
 
     
         </div>
@@ -40,10 +40,12 @@
 </template>
 
 <script>
+import useStore from '../store'
 
 export default {
     data() {
         return {
+            
             selectPath: "/todo",
             routers: [
                 {
@@ -76,9 +78,14 @@ export default {
                     value: "关于",
                     to: "/about",
                 },
+                {
+                    icon:"EditPen",
+                    value:"个人资料",
+                    to:'/userinfo'
+                }
             ],
 
-            username:"JinXin",
+            username:"Admin",
             sendcode:"623014",
     
         };
@@ -89,9 +96,21 @@ export default {
             this.selectPath = to.path;
         },
     },
+    mouted(){
+
+    },
     methods:{
         toUserInfo(){
 
+        },
+        exit(){
+
+
+            console.log(useStore().user.isLogin);
+            useStore().user.clearStatus()
+  
+            this.$router.push('/login')
+            this.$message.info('已清除登陆态')
         }
     }
 
@@ -211,7 +230,7 @@ span{
         align-items: center;
         align-self: flex-start;
         padding-left: 2rem;
-        margin-top: 22vh;
+        margin-top: 10vh;
         p{
             font-weight: lighter;
             color:  #fff;

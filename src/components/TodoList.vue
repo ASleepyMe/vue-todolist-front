@@ -8,9 +8,10 @@
       </div>
     <div class="common-layout">
         <el-container>
-        <el-header> 
-            <el-button round type="primary" @click="deleteEvents()" class="add">清除</el-button>
-            <el-button round type="primary" @click="showAddEventDialog()" class="add">新建待办</el-button>
+        <el-header>
+            <el-button disabled circle type="info"> <el-icon><Delete /></el-icon> </el-button> &nbsp;
+            <el-button round type="success" @click="deleteEvents()" class="add">完成勾选项&nbsp;<el-icon><Check /></el-icon></el-button>
+            <el-button round type="primary" @click="showAddEventDialog()" class="add">新建待办 &nbsp;<el-icon><CirclePlus /></el-icon></el-button>
 
      </el-header>
 
@@ -19,8 +20,8 @@
             <Transition name="fade" >
                 <el-timeline>
                     
-                        <el-timeline-item
-                    v-for="(activity, index) in activities"
+                    <el-timeline-item
+                    v-for="(activity, index) in showActivesList"
                     :key="index"
                     :icon="activity.icon"
                     :type="activity.type"
@@ -86,34 +87,57 @@ const isshow = reactive({
 
 
 <script>
+
 import AddEvents from './AddEvents.vue';
-import {data} from '../utils/activities'
+import useStore from '../store'
 export default {
     components:{AddEvents},
     data() {
         return {
             isshow:false,
-            activities: data.activities,
+            activities: [],
             isActive:[]
         };
     },
     mounted(){
-        this.activities.reverse()
+        this.activities = useStore().user.getTodoList
+        console.log(this.activities);
+     
     },
-    watch: {
-        
+    computed: {
+        showActivesList: function (){
+            return this.activities.filter(function(item){
+                console.log(item.status == 'doing');
+                return (item.status == 'doing')
+            })
+        }
     },
     methods:{
         showAddEventDialog(){
             this.isshow = true
             },
         deleteEvents(){
+            
             if(this.isActive.length > 0)
             {
+
+
                 for(let i = this.isActive.length-1;i>=0;i--)
                 {
-                    this.activities.splice(this.isActive[i],1)
+
+                    this.activities[i].status = 'finished'
+
+                    console.log(this.activities);
+
+                    // this.activities.splice(this.isActive[i],1)
+
+                    
+
+                 
                 }
+                
+                useStore().user.updateTodoList(this.activities)
+              
                 this.$message.success('清除任务成功')
                 this.isActive = []
             }else{
@@ -122,6 +146,8 @@ export default {
           
         },
         touch(index){
+            console.log(index);
+
             if(this.isActive.includes(index)){
                 //includes()方法判断是否包含某一元素,返回true或false表示是否包含元素，对NaN一样有效
                 //filter()方法用于把Array的某些元素过滤掉，filter()把传入的函数依次作用于每个元素，然后根据返回值是true还是false决定保留还是丢弃该元素：生成新的数组
@@ -138,7 +164,8 @@ export default {
          
         },
         addEvent(val){
-            this.activities.unshift(val.content)
+            useStore().user.addEventList(val.content)
+
             this.isActive = []
 
 
@@ -178,7 +205,7 @@ export default {
         .el-main{
             margin: auto;
             padding: 0;
-            
+            min-height: 500px;
             .el-timeline::v-deep{
             
          .el-timeline-item{

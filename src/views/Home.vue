@@ -1,9 +1,8 @@
-
 <template>
     <div class="common-layout">
       <el-divider  style="box-shadow: 1px black solid;" content-position="left">
       蜀ICP备2022003140号
-  </el-divider>
+      </el-divider>
       <el-container>
       <el-aside>
   
@@ -21,11 +20,26 @@
   
   <script>
   import Nav from "../components/Nav.vue";
-  
+  import useStore from '../store'
   
   export default {
       name: "App",
-      components: { Nav }
+      components: { Nav },
+      data(){
+        return{
+          isLogin:false,
+        }
+      },
+      mounted(){
+        this.isLogin = useStore().user.getLoginStatus
+        console.log(this.isLogin);
+          if(!this.isLogin)
+            {this.$message.error('请登陆')
+             this.$router.push('/login')
+          }else{
+            this.$router.push('/todo')
+          }
+      }
   }
   </script>
   
@@ -69,7 +83,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 15.5rem;
+    width: 20rem;
     height: 100%;
     margin-top: 140px;
   

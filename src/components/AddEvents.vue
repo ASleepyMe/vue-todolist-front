@@ -56,7 +56,7 @@
 
 import { ref,reactive,defineEmits } from 'vue'
 
-
+import useStore from '../store'
 
 const emit = defineEmits(['showClick'])
 
@@ -84,13 +84,17 @@ function toggle(){
     emit('showClick',{addEventDialog:false})
 }
 
+
+
 function toSubmitEvent(){
+    console.log(useStore().user.getSelectedDay);
 
     let content = {
         content:textarea1.value,
         size:'large',
         type:'primary',
-        timestamp:2022
+        status:'doing',
+        timestamp:useStore().user.getSelectedDay
     }
 
     emit('addEvent',{content})

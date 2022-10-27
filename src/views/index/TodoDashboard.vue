@@ -50,7 +50,7 @@ export default {
     .el-main {
         margin: 0;
         padding: 0;
-        height: 100vh;
+        height: 100%;
         .charts{ 
         background-color: #ffff;     
         border-radius: 25px;

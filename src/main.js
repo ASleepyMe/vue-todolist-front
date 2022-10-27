@@ -10,24 +10,33 @@ import dayjs from 'dayjs'
 import ObjectSupport from 'dayjs/plugin/objectSupport'
 import echarts from'./utils/echarts'
 import animated from 'animate.css'
-
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import { createPinia } from 'pinia'
 
 
 const app = createApp(App)
+
+
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
+app.use(pinia)
 
 app.config.globalProperties.$dayjs = dayjs
 app.config.globalProperties.$echarts = echarts
 dayjs.extend(ObjectSupport)
 
 
-app.use(ElementPlus,{
-  locale: zhCn})
+
 app.use(router)
 app.use(animated)
 
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component)
-  }
+  app.component(key, component)
+}
 
+
+  app.use(ElementPlus,{
+    locale: zhCn})
 app.mount('#app')

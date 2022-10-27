@@ -57,6 +57,8 @@
   </template>
 
   <script>
+
+import useStore from '../store'
   export default {
     name: "ren-calendar",
     props: {
@@ -150,6 +152,7 @@
       }else {
         this.choose = this.getToday().date;
       }
+      useStore().user.setSelectDay(this.getToday().date);
       this.toggle()
       
     },
@@ -178,6 +181,7 @@
           date: y + "-" + this.formatNum(m + 1) + "-" + this.formatNum(d),
           week: formatWeek,
         };
+
         return today;
       },
       // 获取当前月份数据
@@ -292,6 +296,7 @@
         let date = `${i.year}-${i.month}-${i.date}`;
         let selectD = new Date(date).getTime();
         let curTime = new Date().getTime();
+     
         let week = new Date(date).getDay();
         let weekText = ["日", "一", "二", "三", "四", "五", "六"];
         let formatWeek = "星期" + weekText[week];
@@ -299,7 +304,9 @@
           date: date,
           week: formatWeek,
         };
-        console.log(date);
+        useStore().user.setSelectDay(date)
+
+      
         // if (!i.isCurM) {
         //   // console.log('不在当前月范围内');
         //   return false;
