@@ -4,12 +4,12 @@
       蜀ICP备2022003140号
       </el-divider>
       <el-container>
-      <el-aside>
+       <el-aside>
   
         <Nav></Nav>
   
   
-      </el-aside>
+        </el-aside>
         
         <el-main>   <router-view /> </el-main>
       </el-container>
@@ -32,7 +32,7 @@
       },
       mounted(){
         this.isLogin = useStore().user.getLoginStatus
-        console.log(this.isLogin);
+     
           if(!this.isLogin)
             {this.$message.error('请登陆')
              this.$router.push('/login')

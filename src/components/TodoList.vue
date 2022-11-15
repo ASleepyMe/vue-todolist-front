@@ -1,175 +1,193 @@
 
 
 <template>
-      <div>
+    <div>
 
-    <AddEvents v-if="isshow" @showClick="showClick" @addEvent="addEvent"></AddEvents>
+        <AddEvents v-if="isshow" @showClick="showClick" @addEvent="addEvent"></AddEvents>
 
-      </div>
+    </div>
     <div class="common-layout">
         <el-container>
-        <el-header>
-            <el-button disabled circle type="info"> <el-icon><Delete /></el-icon> </el-button> &nbsp;
-            <el-button round type="success" @click="deleteEvents()" class="add">完成勾选项&nbsp;<el-icon><Check /></el-icon></el-button>
-            <el-button round type="primary" @click="showAddEventDialog()" class="add">新建待办 &nbsp;<el-icon><CirclePlus /></el-icon></el-button>
+            <el-header>
+                <el-button disabled circle type="info">
+                    <el-icon>
+                        <Delete />
+                    </el-icon>
+                </el-button> &nbsp;
+                <el-button round type="success" @click="deleteEvents()" class="add">完成勾选项&nbsp;<el-icon>
+                        <Check />
+                    </el-icon>
+                </el-button>
+                <el-button round type="primary" @click="showAddEventDialog()" class="add">新建待办 &nbsp;<el-icon>
+                        <CirclePlus />
+                    </el-icon>
+                </el-button>
 
-     </el-header>
+            </el-header>
 
-        <el-main>
-            <div class="aside">
-            <Transition name="fade" >
-                <el-timeline>
-                    
-                    <el-timeline-item
-                    v-for="(activity, index) in showActivesList"
-                    :key="index"
-                    :icon="activity.icon"
-                    :type="activity.type"
-                    :color="activity.color"
-                    :size="activity.size"
-                    :hollow="activity.hollow"
-                    :timestamp="activity.timestamp"
-                    placement="top"
-                     >
-           
-                       <p :class="{active:isActive.includes(index)}" @click="touch(index)"> {{ activity.content }}</p>
-                        <el-divider border-style="dotted" />
-                        </el-timeline-item>
-                    
-                </el-timeline>
-            </Transition>
-            </div>
-               
-            
+            <el-main>
+                <div class="aside">
+                    <Transition name="fade">
+                        <el-timeline>
 
-        </el-main>
-     </el-container>
+                            <el-timeline-item v-for="(activity, index) in showSelecteddayActivesList" :key="index"
+                                :icon="activity.icon" :type="activity.type" :color="activity.color"
+                                :size="activity.size" :hollow="activity.hollow" :timestamp="activity.timestamp"
+                                placement="top">
+
+                                <p :class="{ active: isActive.includes(index) }" @click="touch(index)"> {{ activity.content
+                                }}</p>
+                                <el-divider border-style="dotted" />
+                            </el-timeline-item>
+
+                        </el-timeline>
+                    </Transition>
+                </div>
+
+                <div class="historyList">
+
+                    <div class="historyToggleTitle">
+                        <p class="title">展开历史完成待办</p>
+                        <el-switch v-model="historyToggle" />
+                    </div>
+
+                    <div class="historyTodoList">
+
+                        <el-timeline v-show="historyToggle">
+
+                            <el-timeline-item v-for="(activity, index) in showAllFinishedEvents" :key="index"
+                                :icon="activity.icon" :type="activity.type" :color="activity.color"
+                                :size="activity.size" :hollow="activity.hollow" :timestamp="activity.timestamp"
+                                placement="top">
+
+                                <p> {{ activity.content }}</p>
+                                <el-divider border-style="dotted" />
+                            </el-timeline-item>
+
+                        </el-timeline>
+
+                    </div>
+                </div>
+
+            </el-main>
+        </el-container>
     </div>
 </template>
 
 
 
-<!-- 
-<script setup>
-import {reactive} from 'vue';
-import {data} from '../utils/activities'
-import AddEvents from './AddEvents.vue';
-
-const isshow = reactive({
-   show:false
-})
-
-  const activities = data.activities
-  
-  let isActive = -1;
-
-
-  const show =(val) => {
-    console.log(val);
-    isshow.show = val.addEventDialog
-  }
-
-  function addEvent(){
-    isshow.show = true
-    console.log(isshow);
-  }
-
-  function touch(index){
-    console.log(index);
-
-    isActive = index
-    console.log(isActive);
-    console.log(isActive === index);
-
-
-  }
-</script> -->
-
-
 <script>
-
+import mitt from '../utils/mitt.js'
 import AddEvents from './AddEvents.vue';
 import useStore from '../store'
+
 export default {
-    components:{AddEvents},
+    components: { AddEvents },
     data() {
         return {
-            isshow:false,
+            isshow: false,
             activities: [],
-            isActive:[]
+            isActive: [],
+            todayList: [],
+            historyToggle: true
         };
     },
-    mounted(){
-        this.activities = useStore().user.getTodoList
+    mounted() {
+        this.todayList = (useStore().user.getTodayTodoList)
+        this.activities = (useStore().user.getAllTodoList)
         console.log(this.activities);
-     
+        console.log(this.todayList);
+
+        mitt.on('getSelectedDate', (res) => {
+            console.log(res);
+            this.todayList = useStore().user.getSelectedDateList
+            console.log(this.todayList);
+        })
     },
     computed: {
-        showActivesList: function (){
-            return this.activities.filter(function(item){
-                console.log(item.status == 'doing');
+        showSelecteddayActivesList: function () {
+
+            return this.todayList.filter(function (item) {
+
                 return (item.status == 'doing')
+            })
+        },
+
+        showAllFinishedEvents: function () {
+
+            return this.activities.filter(function (item) {
+
+                return (item.status != 'doing')
             })
         }
     },
-    methods:{
-        showAddEventDialog(){
+    methods: {
+        showAddEventDialog() {
             this.isshow = true
-            },
-        deleteEvents(){
-            
-            if(this.isActive.length > 0)
-            {
+        },
+        deleteEvents() {
+
+            if (this.isActive.length > 0) {
 
 
-                for(let i = this.isActive.length-1;i>=0;i--)
-                {
+                for (let i = this.isActive.length - 1; i >= 0; i--) {
 
-                    this.activities[i].status = 'finished'
 
-                    console.log(this.activities);
+                    console.log(this.showSelecteddayActivesList[this.isActive[i]]);
+                    this.showSelecteddayActivesList[this.isActive[i]].status = 'finished'
 
-                    // this.activities.splice(this.isActive[i],1)
 
-                    
 
-                 
+                    mitt.emit('updateChartsData',true)
+
+
+
+
                 }
-                
+                console.log(this.showActivesList);
+                console.log(this.activities);
                 useStore().user.updateTodoList(this.activities)
-              
+
                 this.$message.success('清除任务成功')
                 this.isActive = []
-            }else{
+            } else {
                 this.$message.info('暂无选中事项')
             }
-          
+
         },
-        touch(index){
+        touch(index) {
             console.log(index);
 
-            if(this.isActive.includes(index)){
+            if (this.isActive.includes(index)) {
                 //includes()方法判断是否包含某一元素,返回true或false表示是否包含元素，对NaN一样有效
                 //filter()方法用于把Array的某些元素过滤掉，filter()把传入的函数依次作用于每个元素，然后根据返回值是true还是false决定保留还是丢弃该元素：生成新的数组
-                this.isActive=this.isActive.filter(function (ele){return ele != index;});
-            }else{
+                this.isActive = this.isActive.filter(function (ele) {
+                    console.log(ele != index);
+                    return ele != index;
+                });
+
+                console.log(this.isActive);
+            } else {
                 this.isActive.push(index);
             }
             this.isActive.sort()
-     
+
         },
-        showClick(val){
-      
+        showClick(val) {
+
             this.isshow = val.addEventDialog
-         
+
         },
-        addEvent(val){
+        addEvent(val) {
             useStore().user.addEventList(val.content)
 
+            this.todayList = (useStore().user.getTodayTodoList)
+            this.activities = (useStore().user.getAllTodoList)
+            
             this.isActive = []
 
 
-         }
+        }
     }
 
 
@@ -180,75 +198,119 @@ export default {
 <style lang="less" scoped>
 @import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css";
 
+
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
-    .el-container{
-        .el-header{
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 20px;
-            .add{
-                width: 14vh;
-                font-weight: lighter;
-                font-size: 14px;
-                letter-spacing: 0.2rem;
+
+.el-container {
+    .el-header {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+
+        .add {
+            width: 14vh;
+            font-weight: lighter;
+            font-size: 14px;
+            letter-spacing: 0.2rem;
+        }
+    }
+
+    .el-main {
+        margin: auto;
+        padding: 0;
+        min-height: 300px;
+        width: 100%;
+        background-color: #F5F7FA;
+
+        .aside {
+            border-radius: 0 0 25px 25px;
+            background-color: #fff;
+        }
+
+        .historyList {
+
+
+            margin-top: 40px;
+
+            .historyTodoList {
+                transition: height 0.5s ease;
+                padding-top: 40px;
+                border-radius: 25px;
+                width: 100%;
+                background-color: #fff;
+            }
+
+            .historyToggleTitle {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 10px 40px;
+                background-color: #F5F7FA;
+
+                p {
+                    padding-right: 10px;
+                    font-weight: 600;
+                    color: #666;
+                }
             }
         }
 
-        .el-main{
-            margin: auto;
-            padding: 0;
-            min-height: 500px;
-            .el-timeline::v-deep{
-            
-         .el-timeline-item{
-            padding: 20px;
-            transition: all 0.3 ease;
-            .el-timeline-item__tail{
-                display: none;
-            }
-            .el-timeline-item__wrapper{
+        .el-timeline::v-deep {
+
+            .el-timeline-item {
+                padding: 20px;
                 transition: all 0.3 ease;
-                .el-timeline-item__timestamp.is-top{
-                    text-align: left;
-                    font-weight: bold;
-                    padding-bottom: 20px;
-                }
-                .el-timeline-item__content{
-                    font-size: 1.1rem;
-                    font-weight:normal;
-                    letter-spacing: 2px;
-                    text-align: left;
-                    align-items:center;
-                    
-                    p{
-                        padding: 20px;
-                        border-radius: 25px;
-                    }
-                    p:hover{
-                        text-decoration:line-through;
-                        background-color: aliceblue;
-                        transition: all 0.2s ease;
-                    }
-                    .active{
-                        text-decoration:line-through;
-                        background-color: aliceblue;
-                        transition: all 0.2s ease;
-                    }
-                }
-            }
-            
-        }
-    }
 
+                .el-timeline-item__tail {
+                    display: none;
+                }
+
+                .el-timeline-item__wrapper {
+                    transition: all 0.3 ease;
+
+                    .el-timeline-item__timestamp.is-top {
+                        text-align: left;
+                        font-weight: bold;
+                        padding-bottom: 20px;
+                    }
+
+                    .el-timeline-item__content {
+                        font-size: 1.1rem;
+                        font-weight: normal;
+                        letter-spacing: 2px;
+                        text-align: left;
+                        align-items: center;
+
+                        p {
+                            padding: 20px;
+                            border-radius: 25px;
+                        }
+
+                        p:hover {
+                            text-decoration: line-through;
+                            background-color: aliceblue;
+                            transition: all 0.2s ease;
+                        }
+
+                        .active {
+                            text-decoration: line-through;
+                            background-color: aliceblue;
+                            transition: all 0.2s ease;
+                        }
+                    }
+                }
+
+            }
         }
+
     }
-    
+}
 </style>

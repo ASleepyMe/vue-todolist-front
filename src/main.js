@@ -36,7 +36,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
-
+export const eventsBus = 
   app.use(ElementPlus,{
     locale: zhCn})
 app.mount('#app')

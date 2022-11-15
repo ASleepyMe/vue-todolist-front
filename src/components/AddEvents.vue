@@ -31,19 +31,36 @@
         </div>
 
         <div class="settings">
-            <el-button text  @click="Toggle.time = !Toggle.time"><el-icon color="#79bbff" ><Clock /></el-icon>&nbsp;设置时间</el-button>
-            <el-button text><el-icon color="#79bbff"><Orange /></el-icon>&nbsp;分类</el-button>
+            <el-button text  @click="Toggle.time = !Toggle.time">&nbsp;<el-icon color="#79bbff" ><Clock /></el-icon>&nbsp;设置时间&nbsp;</el-button>
+            <el-button class='levelTag' text  @click="Toggle.level = !Toggle.level">&nbsp;<el-icon color="#79bbff"><Orange /></el-icon>&nbsp;分类&nbsp;</el-button>
         </div>
 
         <div class="setting_time" v-if="Toggle.time">
-            <v-calendar />
+          
             <el-input v-model="input2">
-            <template #append>时</template>
-        </el-input>
+                <template #append>时</template>
+            </el-input>
             <el-input v-model="input3">
             <template #append>分</template>
             </el-input>
         </div>
+
+
+        <div class="setting_level" v-if="Toggle.level">
+           <div class="trangle-up"></div>
+           <div class="levelContainer">
+            <a
+                v-for="(item,index) in bgList"
+                :key="index"
+                :style="{backgroundColor:item.color}"
+                class="drop"
+                @click="selectColor(index)"
+            ></a>
+           </div>
+            
+          
+      </div>
+
     </div>
 
    </div>
@@ -51,28 +68,34 @@
 </template>
 
 <script setup>
-
-
-
 import { ref,reactive,defineEmits } from 'vue'
-
+import { ElMessageBox } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import useStore from '../store'
 
 const emit = defineEmits(['showClick'])
 
 
 const textarea1 = ref('')
-
+// const color = ref('')
 let Toggle = reactive({
     time:false,
-    
+    level:false
 
 })
 
+const bgList = [
+    {level:'info',color:'#909399'},
+    {level:'success',color:'#67C23A'},
+    {level:'warning',color:'#E6A23C'},
+    {level:'danger',color:'#F56C6C'},]
 
 const input2 = ref('')
 const input3 = ref('')
-
+let attribute = {
+    color :'',
+    level:''
+}
 const buttons = [
 
   { type: 'primary', text: '确定' ,click:toSubmitEvent},
@@ -84,7 +107,14 @@ function toggle(){
     emit('showClick',{addEventDialog:false})
 }
 
+function selectColor(index){
+    attribute.color = bgList[index].color
+    attribute.level = bgList[index].level
 
+    Toggle.level = false
+
+    console.log(attribute);
+}
 
 function toSubmitEvent(){
     console.log(useStore().user.getSelectedDay);
@@ -94,8 +124,20 @@ function toSubmitEvent(){
         size:'large',
         type:'primary',
         status:'doing',
-        timestamp:useStore().user.getSelectedDay
+        level:attribute.level,
+        timestamp:useStore().user.getSelectedDay,
+        color:attribute.color
     }
+        if(content.content == '')
+        {
+            ElMessageBox.alert('内容不能为空','error',{
+                type:'error'
+            })
+            ElMessage.info({
+            message: ''
+          });
+        return
+        }
 
     emit('addEvent',{content})
     emit('showClick',{addEventDialog:false})
@@ -194,13 +236,30 @@ function toSubmitEvent(){
             font-size: 1.2rem;
             margin-right: 20px;
             padding: 0;
-            border-radius: 15pxs;
+            border-radius: 15px;
+        }
+        .levelTag{
+            position: relative;
+            
+           
+        }
+        #triangle-up {
+
+        width: 0;
+
+        height: 0;
+
+        border-left: 50px solid transparent;
+
+        border-right: 50px solid transparent;
+
+        border-bottom: 100px solid red;
+
         }
     }
 
     .setting_time{
-        
-        transition: all 0.2 ease;
+  
         padding-bottom: 20px;
         display: flex;
         justify-content: flex-start ;
@@ -209,6 +268,49 @@ function toSubmitEvent(){
             width: 100px;
             margin-right: 20px;
         }
+    }
+
+    .setting_level{
+        transition: 1s all;
+        position: absolute;
+        top:260px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        background-color: #fff;
+        width: 240px;
+        
+        right: 54%;
+        border-radius: 25px;
+        height: 40px;
+        .levelContainer::before{
+        content:"";
+        position: absolute;
+        right: 80%;
+        bottom: 40px;
+        width: 0;
+        height: 0;
+       
+        border-left: 13px solid transparent;
+        border-right: 13px solid transparent;
+        border-bottom: 13px solid #2a4d71;
+        }
+       .levelContainer{
+        display: flex;
+      
+        justify-content:space-around;
+        align-items: center;
+        height: 40px;
+        
+
+        .drop{
+                
+                border-radius: 50%;
+                padding: 14px;
+            }
+            
+       }
+
+
+
     }
 }
 </style>

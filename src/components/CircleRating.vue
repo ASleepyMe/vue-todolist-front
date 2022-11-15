@@ -4,16 +4,27 @@
 </template>
 
 <script>
-
-
+import useStore from '../store'
+import mitt from '../utils/mitt'
 export default {
     data(){
         return{
-
+          completed:50,
+          failed:50,
         }
     },
 
     mounted() {
+        this.completed = useStore().user.computedStatusPercents[1]
+        this.failed = useStore().user.computedStatusPercents[0],
+
+        mitt.on('updateChartsData', (res) => {
+          if(res){
+            console.log(res);
+            this.completed = useStore().user.computedStatusPercents[1]
+            this.failed = useStore().user.computedStatusPercents[0]
+          }
+        })
         this.initEcharts();
     },
     methods:{
@@ -26,7 +37,7 @@ export default {
 
             const gaugeData = [
   {
-    value: 60,
+    value: this.completed,
     name: '已完成事务',
     title: {
       offsetCenter: ['0%', '-40%']
@@ -37,7 +48,7 @@ export default {
     }
   },
   {
-    value: 40,
+    value: this.failed,
     name: '待处理事项',
     title: {
       offsetCenter: ['0%', '20%']

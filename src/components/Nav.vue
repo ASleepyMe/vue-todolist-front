@@ -6,7 +6,7 @@
         <!-- 用户信息 -->
         <div class="user" @click="changeThemes('blue')">
         <!-- 头像 -->
-        <el-avatar :size="80" :icon="UserFilled" >{{username}}</el-avatar>
+        <el-avatar :size="80" icon="UserFilled" >{{username}}</el-avatar>
         <!-- 用户名 -->
           <div class="userinfo">
            

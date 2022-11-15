@@ -4,10 +4,11 @@
   </div>
 </template>
 
-<style scoped>
+<style>
 body{
-  margin: 0;
-    padding: 0;
+  padding-right: 0px !important;
+  width:  100% !important;
+  overflow: hidden !important;
 }
 
 </style>

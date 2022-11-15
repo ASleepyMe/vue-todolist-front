@@ -21,7 +21,7 @@
   <script setup>
 
   import useStore from '../store';
-  const activities = useStore().user.getTodoList
+  const activities = useStore().user.getAllTodoList
   </script>
   
   <style lang="less" scoped>

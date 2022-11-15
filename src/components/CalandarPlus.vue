@@ -1,9 +1,10 @@
 <template>
-    
+      
     <div class="calendar-wrapper">
       <!-- 月份变换区 -->
-      
+     
       <div class="header rowJcAc" v-if="headerBar">
+        
         <transition name="fade">
         <div class="arrowIcon rowJcAc" @click="changeMonth('pre')" v-if="monthOpen">
             <el-icon><ArrowLeftBold /></el-icon>
@@ -11,12 +12,22 @@
         </div>
       </transition>
        
-        <div class="yearMonth">{{y+'年'+formatNum(m)+'月'}}</div>
-        <transition name="fade">
-        <div class="arrowIcon rowJcAc" @click="changeMonth('next')" v-if="monthOpen">
+        <div class="yearMonth">{{y+'年'+formatNum(m)+'月'}}  
+          <el-button  class="toTodayButton" round @click="toToday(this.today)" icon="RefreshRight"></el-button></div>
+
+       
+
+      <transition name="fade">
+
+      
+          <div class="arrowIcon rowJcAc" @click="changeMonth('next')" v-if="monthOpen">
             
             <el-icon><ArrowRightBold /></el-icon>
+            
         </div>
+
+      
+        
       </transition>
       </div>
      
@@ -27,6 +38,7 @@
   
       <!-- 日历显示区 -->
 
+      <Transition name="fade">
       <div :class="{hide : !monthOpen}" class="content">
         <div :style="{top:positionTop + 'px'}" class="days">
           <div class="item rowJcAc" v-for="(item,index) in dates" :key="index">
@@ -47,7 +59,7 @@
           </div>
         </div>
       </div>
-
+      </Transition>
       <!-- 伸缩按钮：待定 -->
       <div class="bottomLine rowJcAc" v-if="collapsible" @click="toggle">
         <div></div>
@@ -57,8 +69,9 @@
   </template>
 
   <script>
-
+import '../utils/mitt.js'
 import useStore from '../store'
+import mitt from '../utils/mitt.js';
   export default {
     name: "ren-calendar",
     props: {
@@ -110,10 +123,12 @@ import useStore from '../store'
         monthOpen: true,
         choose: "",
         isCurM: true,
+        today:{}
       };
     },
     created() {
       this.dates = this.monthDay(this.y, this.m);
+     
       // !this.open && this.toggle();
     },
     watch: {
@@ -143,8 +158,16 @@ import useStore from '../store'
       }
     },
     mounted() {
-
-
+      
+      useStore().user.setToday(this.getToday())
+      let nowDate = new Date();
+      
+      this.today  = {
+        date:nowDate.getDate(),
+        month:(nowDate.getMonth()+1),
+        year:nowDate.getFullYear()}
+     
+      this.isMarkDay(2022,10,28)
       if(this.selectDate) {
         this.choose = this.selectDate
         this.y = this.selectDate.split('-')[0]
@@ -165,15 +188,21 @@ import useStore from '../store'
       },
     },
     methods: {
+      toToday(today){
+          console.log(today);
+          this.selectOne(today)
+          this.changYearMonth(today.year,today.month)
+      },
       formatNum(num) {
         let res = Number(num);
         return res < 10 ? "0" + res : res;
       },
       getToday() {
         let date = new Date();
-        let y = date.getFullYear();
-        let m = date.getMonth();
-        let d = date.getDate();
+          let y = date.getFullYear();
+          let m = date.getMonth();
+          let d = date.getDate();
+        
         let week = new Date().getDay();
         let weekText = ["日", "一", "二", "三", "四", "五", "六"];
         let formatWeek = "星期" + weekText[week];
@@ -290,10 +319,14 @@ import useStore from '../store'
       },
       // 点击回调
       selectOne(i) {
-       
+        console.log(i);
         let markDay = this.isMarkDay(i.year, i.month, i.date);
 
+        
+
         let date = `${i.year}-${i.month}-${i.date}`;
+
+        console.log(date);
         let selectD = new Date(date).getTime();
         let curTime = new Date().getTime();
      
@@ -306,6 +339,8 @@ import useStore from '../store'
         };
         useStore().user.setSelectDay(date)
 
+        mitt.emit('getSelectedDate',date)
+        
       
         // if (!i.isCurM) {
         //   // console.log('不在当前月范围内');
@@ -334,7 +369,7 @@ import useStore from '../store'
           }
         }
         this.$emit("setDate", response);
-        //   console.log(response);
+          console.log(response);
       },
       //改变年月
       changYearMonth(y, m) {
@@ -343,6 +378,7 @@ import useStore from '../store'
         this.m = m;
       },
       changeMonth(type) {
+      
         this.y = parseInt(this.y)
         this.m = parseInt(this.m)
         if (type == "pre") {
@@ -410,14 +446,28 @@ import useStore from '../store'
     padding: 10px;
     border-radius: 25px;
     transition: 0.6s ease-in-out;
+
+    .toTodayButton{
+
+      padding: 20px;
+         
+        }
     .header {
         display: flex;
         justify-content: center;
+        align-items: center;
+   
       .yearMonth {
         font-size: 16px;
         line-height: 23px;
+      
         color: #333843;
-        margin: 0 32px;
+        width: 60%;
+        margin-left: 40px;
+        button{
+          margin-left: 40px;
+          padding: 10px;
+        }
       }
   
       
