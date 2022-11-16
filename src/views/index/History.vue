@@ -11,7 +11,7 @@
                <HistoryDoing></HistoryDoing>
         
 
-               <div class="space"></div>
+         
             </el-main>
             
         </el-container>
