@@ -3,7 +3,7 @@
         <el-container>
             <el-header>
                 <div class="title">
-                    <h2>历史完成项总览(近30天内)</h2>
+                    <h2>历史完成项总览</h2>
                 </div>
             </el-header>
 

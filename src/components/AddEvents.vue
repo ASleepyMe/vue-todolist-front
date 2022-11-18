@@ -84,6 +84,7 @@ let Toggle = reactive({
 
 })
 
+
 const bgList = [
     {level:'info',color:'#909399'},
     {level:'success',color:'#67C23A'},
@@ -92,6 +93,7 @@ const bgList = [
 
 const input2 = ref('')
 const input3 = ref('')
+
 let attribute = {
     color :'',
     level:''
@@ -118,11 +120,10 @@ function selectColor(index){
 
 function toSubmitEvent(){
     console.log(useStore().user.getSelectedDay);
-
+    
     let content = {
         content:textarea1.value,
         size:'large',
-        type:'primary',
         status:'doing',
         level:attribute.level,
         timestamp:useStore().user.getSelectedDay,
