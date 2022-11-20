@@ -91,9 +91,9 @@
   
   .el-main{
     margin-left: 20rem;
-    width: 100%;
+      width: 100%;
      padding-right: 1=0px !important;
-    /* width: calc(100vw - 20rem); */
+   
   }
   
   

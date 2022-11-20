@@ -40,12 +40,12 @@ export default {
 
     .el-main {
         margin: 0;
-        height: 80vh;
+        height: 82vh;
         overflow:auto;
         display: flex;
         background-color: #ffff;
         border-radius: 25px 0px 0 0;
-        padding: 40px;
+        width: calc(100vw - 20rem); 
         flex-direction: column;
         padding-right: 100px;
        
@@ -56,9 +56,6 @@ export default {
         }
     }
 
-    .space{
-        height: 1300px;
-        width: 100vh;
-                    }
+
 }
 </style>

@@ -28,7 +28,7 @@
 
   <el-divider></el-divider>
 
-  <el-table  :data="tableData"  style="width: 100%;height: 100%;" :key="free">
+  <el-table  :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"  style="width: 100%;height: 100%;" :key="free">
     <el-table-column prop="level" label="等级" width="200"
      :formatter="levelFormat" />
     <el-table-column prop="timestamp" label="日期" width="400" />
@@ -50,8 +50,33 @@
           >
         </template>
       </el-table-column>
-  </el-table>
 
+
+
+  </el-table>
+  <div class="pagination">
+    <div class="pageSelect">
+      <el-pagination
+      
+      v-show="switchPage"
+      v-model:current-page="currentPage"
+      v-model:page-size="pageSize"
+      :page-sizes="[10, 15, 20,tableData.length]"
+      :small="small"
+      :disabled="disabled"
+      :background="background"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="tableData.length"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
+    </div>
+
+    <div :style="{'height':'36px'}"> 
+      <el-switch v-model="switchPage" /> <span>分页器</span>
+    </div>
+
+  </div>
   
   </template>
   
@@ -60,6 +85,10 @@
   import { ref } from 'vue'
 
   import useStore from '../store';
+
+  let currentPage = ref(1)
+  let pageSize = ref(10)
+  let switchPage = ref(true)
   let activitiesBaseData = ref(useStore().user.getAllTodoList)
 
   let tableData = ref([])
@@ -118,7 +147,14 @@
   </script>
   
   <style lang="less" scoped>
+  .pagination{
+    max-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
 
+  }
   .headerSetting{
     display: flex;
     justify-content: start-flex;
