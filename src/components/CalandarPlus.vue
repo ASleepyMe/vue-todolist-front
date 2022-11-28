@@ -189,7 +189,7 @@ import mitt from '../utils/mitt.js';
     },
     methods: {
       toToday(today){
-          console.log(today);
+         
           this.selectOne(today)
           this.changYearMonth(today.year,today.month)
       },
@@ -259,7 +259,7 @@ import mitt from '../utils/mitt.js';
             isCurM: false
           });
         }
-        // console.log(dates);
+     
         return dates;
       },
       isFutureDay(y, m, d) {
@@ -319,14 +319,14 @@ import mitt from '../utils/mitt.js';
       },
       // 点击回调
       selectOne(i) {
-        console.log(i);
+
         let markDay = this.isMarkDay(i.year, i.month, i.date);
 
         
 
         let date = `${i.year}-${i.month}-${i.date}`;
 
-        console.log(date);
+  
         let selectD = new Date(date).getTime();
         let curTime = new Date().getTime();
      
@@ -342,10 +342,7 @@ import mitt from '../utils/mitt.js';
         mitt.emit('getSelectedDate',date)
         
       
-        // if (!i.isCurM) {
-        //   // console.log('不在当前月范围内');
-        //   return false;
-        // }
+  
         if (selectD > curTime) {
           if (this.disabledAfter) {
             console.log("未来日期不可选");
@@ -369,7 +366,7 @@ import mitt from '../utils/mitt.js';
           }
         }
         this.$emit("setDate", response);
-          console.log(response);
+        
       },
       //改变年月
       changYearMonth(y, m) {

@@ -7,30 +7,30 @@
 
     </div>
     <div class="common-layout">
-        <el-container>
-            <el-header>
-                <el-button disabled circle type="info">
-                    <el-icon>
-                        <Delete />
-                    </el-icon>
-                </el-button> &nbsp;
-                <el-button round type="success" @click="deleteEvents()" class="add">完成勾选项&nbsp;<el-icon>
-                        <Check />
-                    </el-icon>
-                </el-button>
-                <el-button round type="primary" @click="showAddEventDialog()" class="add">新建待办 &nbsp;<el-icon>
-                        <CirclePlus />
-                    </el-icon>
-                </el-button>
-
-            </el-header>
+      
+    
 
             <el-main>
+                
                 <div class="aside">
-                    <Transition name="fade">
-                        <el-timeline>
-
-                            <el-timeline-item v-for="(activity, index) in showSelecteddayActivesList" :key="index"
+                    <div class="header_button">
+                        <el-button disabled circle type="info">
+                        <el-icon>
+                            <Delete />
+                        </el-icon>
+                        </el-button> &nbsp;
+                        <el-button round type="success" @click="deleteEvents()" class="add">完成勾选项&nbsp;<el-icon>
+                            <Check />
+                            </el-icon>
+                        </el-button>
+                        <el-button round type="primary" @click="showAddEventDialog()" class="add">新建待办 &nbsp;<el-icon>
+                                <CirclePlus />
+                            </el-icon>
+                        </el-button>
+                    </div>
+                    <el-empty v-show="isEmpty" :image-size="100"  description="暂无数据···" />
+                    <el-timeline>
+                        <el-timeline-item v-for="(activity, index) in showSelecteddayActivesList" :key="index"
                                 :icon="activity.icon" :type="activity.type" :color="activity.color"
                                 :size="activity.size" :hollow="activity.hollow" :timestamp="activity.timestamp"
                                 placement="top">
@@ -38,22 +38,20 @@
                                 <p :class="{ active: isActive.includes(index) }" @click="touch(index)"> {{ activity.content
                                 }}</p>
                                 <el-divider border-style="dotted" />
-                            </el-timeline-item>
+                        </el-timeline-item>
 
-                        </el-timeline>
-                    </Transition>
+                    </el-timeline>
+                   
                 </div>
 
                 <div class="historyList">
-
                     <div class="historyToggleTitle">
-                        <p class="title">展开历史完成待办</p>
-                        <el-switch v-model="historyToggle" />
+                            <p class="title">展开历史完成待办</p>
+                            <el-switch v-model="historyToggle" />
                     </div>
-
-                    <div class="historyTodoList">
-
-                        <el-timeline v-show="historyToggle">
+                  
+                    
+                    <el-timeline v-show="historyToggle">
 
                             <el-timeline-item v-for="(activity, index) in showAllFinishedEvents" :key="index"
                                 :icon="activity.icon" :type="activity.type" :color="activity.color"
@@ -64,13 +62,13 @@
                                 <el-divider border-style="dotted" />
                             </el-timeline-item>
 
-                        </el-timeline>
+                    </el-timeline>
 
-                    </div>
+                    
                 </div>
 
             </el-main>
-        </el-container>
+    
     </div>
 </template>
 
@@ -81,6 +79,7 @@ import mitt from '../utils/mitt.js'
 import AddEvents from './AddEvents.vue';
 import useStore from '../store'
 
+
 export default {
     components: { AddEvents },
     data() {
@@ -89,7 +88,8 @@ export default {
             activities: [],
             isActive: [],
             todayList: [],
-            historyToggle: true
+            historyToggle: true,
+            
         };
     },
     mounted() {
@@ -98,10 +98,10 @@ export default {
         console.log(this.activities);
         console.log(this.todayList);
 
-        mitt.on('getSelectedDate', (res) => {
-            console.log(res);
+        mitt.on('getSelectedDate', () => {
+            
             this.todayList = useStore().user.getSelectedDateList
-            console.log(this.todayList);
+            
         })
     },
     computed: {
@@ -119,8 +119,22 @@ export default {
 
                 return (item.status != 'doing')
             })
+        },
+
+        isEmpty: function() {
+          
+            if(this.showSelecteddayActivesList.length == 0) 
+                {
+                   
+                  return true
+                    
+                }else{
+                    return false
+                }
+          
         }
     },
+   
     methods: {
         showAddEventDialog() {
             this.isshow = true
@@ -214,7 +228,7 @@ export default {
         display: flex;
         justify-content: flex-end;
         margin-top: 20px;
-
+        padding: 10px 0;
         .add {
             width: 14vh;
             font-weight: lighter;
@@ -231,29 +245,30 @@ export default {
         background-color: #F5F7FA;
 
         .aside {
-            border-radius: 0 0 25px 25px;
+            border-radius: 25px 25px 25px 25px;
             background-color: #fff;
+            min-height: 4rem;
+            padding-top:10px;
+            .header_button{
+                text-align: end;
+                margin-right: 4rem;
+                line-height: 2rem;
+            }
         }
 
         .historyList {
-
-
+            border-radius: 25px;
+            background-color: #fff;
+            padding: 10px 0;
             margin-top: 40px;
-
-            .historyTodoList {
-                transition: height 0.5s ease;
-                padding-top: 40px;
-                border-radius: 25px;
-                width: 100%;
-                background-color: #fff;
-            }
-
+         
             .historyToggleTitle {
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
-                padding: 10px 40px;
-                background-color: #F5F7FA;
+                width: 20%;
+                margin-left: 4rem;
+                background-color: #fff;
 
                 p {
                     padding-right: 10px;
@@ -264,17 +279,18 @@ export default {
         }
 
         .el-timeline::v-deep {
-
+         
+            transition: height 0.4s ease;
             .el-timeline-item {
                 padding: 20px;
-                transition: all 0.3 ease;
+              
 
                 .el-timeline-item__tail {
                     display: none;
                 }
 
                 .el-timeline-item__wrapper {
-                    transition: all 0.3 ease;
+                    
 
                     .el-timeline-item__timestamp.is-top {
                         text-align: left;
@@ -291,7 +307,7 @@ export default {
 
                         p {
                             padding: 20px;
-                            border-radius: 25px;
+                            border-radius: 15px;
                         }
 
                         p:hover {

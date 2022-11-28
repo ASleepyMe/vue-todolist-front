@@ -12,11 +12,11 @@
 
                 <div class="leftcontainer">
                     <div class="calendarModule">
-                    <CalandarPlus></CalandarPlus>
+                     <CalandarPlus></CalandarPlus>
                     </div>
 
                     <div class="todolist">
-                    <TodoList></TodoList>
+                        <TodoList></TodoList>
                     </div>
 
                     <div class="space"></div>
