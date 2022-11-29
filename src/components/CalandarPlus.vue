@@ -402,6 +402,7 @@ import mitt from '../utils/mitt.js';
   </script>
   
   <style lang="scss" scoped>
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -442,7 +443,7 @@ import mitt from '../utils/mitt.js';
     //         inset 0 0 0 rgba(0, 0, 0, .4);
     padding: 10px;
     border-radius: 25px;
-    transition: 0.6s ease-in-out;
+    transition:all  0.6s ease-in-out;
 
     .toTodayButton{
 
@@ -489,7 +490,7 @@ import mitt from '../utils/mitt.js';
       position: relative;
       overflow: hidden;
       height: 212px;
-      transition: height 0.5s ease;
+      transition: all 0.5s ease;
       .days {
         transition: top 0, 3s;
         display: flex;
@@ -498,7 +499,7 @@ import mitt from '../utils/mitt.js';
         position: relative;
         font-size: 20px;
         line-height: 19px;
-  
+        
         .item {
           position: relative;
           display: block;
@@ -517,7 +518,9 @@ import mitt from '../utils/mitt.js';
             line-height: 36px;
             overflow: hidden;
             border-radius: 50%;
-            transition: top 0, 3s;
+            transition: all 1s ease;
+
+          
             &.choose {
               background-color: #9EA8BA;
               color: #fff;
@@ -590,7 +593,7 @@ import mitt from '../utils/mitt.js';
         
     }
     
-  }
+ 
 
   // @keyframes height {
   //   0% { height: 00%;}
@@ -600,5 +603,5 @@ import mitt from '../utils/mitt.js';
   //   100% { height: 100%;}
   // }
 
-  
+  }
   </style>

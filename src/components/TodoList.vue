@@ -7,51 +7,58 @@
 
     </div>
     <div class="common-layout">
-      
-    
 
-            <el-main>
-                
-                <div class="aside">
-                    <div class="header_button">
-                        <el-button disabled circle type="info">
-                        <el-icon>
-                            <Delete />
-                        </el-icon>
-                        </el-button> &nbsp;
-                        <el-button round type="success" @click="deleteEvents()" class="add">完成勾选项&nbsp;<el-icon>
-                            <Check />
-                            </el-icon>
-                        </el-button>
-                        <el-button round type="primary" @click="showAddEventDialog()" class="add">新建待办 &nbsp;<el-icon>
-                                <CirclePlus />
-                            </el-icon>
-                        </el-button>
-                    </div>
-                    <el-empty v-show="isEmpty" :image-size="100"  description="暂无数据···" />
-                    <el-timeline>
-                        <el-timeline-item v-for="(activity, index) in showSelecteddayActivesList" :key="index"
-                                :icon="activity.icon" :type="activity.type" :color="activity.color"
-                                :size="activity.size" :hollow="activity.hollow" :timestamp="activity.timestamp"
-                                placement="top">
 
-                                <p :class="{ active: isActive.includes(index) }" @click="touch(index)"> {{ activity.content
-                                }}</p>
-                                <el-divider border-style="dotted" />
-                        </el-timeline-item>
 
-                    </el-timeline>
-                   
-                </div>
 
-                <div class="historyList">
-                    <div class="historyToggleTitle">
-                            <p class="title">展开历史完成待办</p>
-                            <el-switch v-model="historyToggle" />
-                    </div>
-                  
-                    
-                    <el-timeline v-show="historyToggle">
+
+        <div class="aside">
+            <div class="header_button">
+                <el-button disabled circle type="info">
+                    <el-icon>
+                        <Delete />
+                    </el-icon>
+                </el-button> &nbsp;
+                <el-button round type="success" @click="deleteEvents()" class="add">完成勾选项&nbsp;<el-icon>
+                        <Check />
+                    </el-icon>
+                </el-button>
+                <el-button round type="primary" @click="showAddEventDialog()" class="add">新建待办 &nbsp;<el-icon>
+                        <CirclePlus />
+                    </el-icon>
+                </el-button>
+            </div>
+
+            <el-empty v-show="isEmpty" :image-size="100" description="暂无数据···" />
+
+
+
+            <el-timeline v-show="!isEmpyty">
+                <el-timeline-item v-for="(activity, index) in showSelecteddayActivesList" :key="index"
+                    :icon="activity.icon" :type="activity.type" :color="activity.color" :size="activity.size"
+                    :hollow="activity.hollow" :timestamp="activity.timestamp" placement="top">
+
+                    <p :class="{ active: isActive.includes(index) }" @click="touch(index)"> {{ activity.content
+                    }}</p>
+                    <el-divider border-style="dotted" />
+                </el-timeline-item>
+
+            </el-timeline>
+
+        </div>
+
+
+        <div class="historyList">
+            <div class="historyToggleTitle">
+                <p class="title">展开历史完成待办</p>
+                <el-switch v-model="historyToggle" />
+            </div>
+
+            <div>
+                <div>
+                    <Transition name="custom-classes" enter-active-class="animate__animated animate__slideInDown"
+                        leave-active-class="animate__animated animate__slideOutUp">
+                        <el-timeline class="history_timeline" v-show="historyToggle">
 
                             <el-timeline-item v-for="(activity, index) in showAllFinishedEvents" :key="index"
                                 :icon="activity.icon" :type="activity.type" :color="activity.color"
@@ -62,13 +69,14 @@
                                 <el-divider border-style="dotted" />
                             </el-timeline-item>
 
-                    </el-timeline>
-
-                    
+                        </el-timeline>
+                    </Transition>
                 </div>
+            </div>
 
-            </el-main>
-    
+        </div>
+
+
     </div>
 </template>
 
@@ -89,7 +97,7 @@ export default {
             isActive: [],
             todayList: [],
             historyToggle: true,
-            
+
         };
     },
     mounted() {
@@ -99,9 +107,9 @@ export default {
         console.log(this.todayList);
 
         mitt.on('getSelectedDate', () => {
-            
+
             this.todayList = useStore().user.getSelectedDateList
-            
+
         })
     },
     computed: {
@@ -121,20 +129,19 @@ export default {
             })
         },
 
-        isEmpty: function() {
-          
-            if(this.showSelecteddayActivesList.length == 0) 
-                {
-                   
-                  return true
-                    
-                }else{
-                    return false
-                }
-          
+        isEmpty: function () {
+
+            if (this.showSelecteddayActivesList.length == 0) {
+
+                return true
+
+            } else {
+                return false
+            }
+
         }
     },
-   
+
     methods: {
         showAddEventDialog() {
             this.isshow = true
@@ -152,7 +159,7 @@ export default {
 
 
 
-                    mitt.emit('updateChartsData',true)
+                    mitt.emit('updateChartsData', true)
 
 
 
@@ -197,7 +204,7 @@ export default {
 
             this.todayList = (useStore().user.getTodayTodoList)
             this.activities = (useStore().user.getAllTodoList)
-            
+
             this.isActive = []
 
 
@@ -215,118 +222,126 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s ease;
+    transition: all 0.3s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-    opacity: 0;
+    height: 0;
 }
 
-.el-container {
-    .el-header {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 20px;
+
+.el-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding: 10px 0;
+
+    .add {
+        width: 14vh;
+        font-weight: lighter;
+        font-size: 14px;
+        letter-spacing: 0.2rem;
+    }
+}
+
+.common-layout {
+
+    background-color: #F5F7FA;
+
+    .aside {
+        border-radius: 25px 25px 25px 25px;
+        background-color: #fff;
+        min-height: 4rem;
+        padding-top: 10px;
+
+        .header_button {
+            text-align: end;
+            margin-right: 4rem;
+            line-height: 2rem;
+        }
+    }
+
+    .historyList {
+        border-radius: 25px;
+        background-color: #fff;
         padding: 10px 0;
-        .add {
-            width: 14vh;
-            font-weight: lighter;
-            font-size: 14px;
-            letter-spacing: 0.2rem;
+        margin-top: 40px;
+
+        .historyToggleTitle {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 20%;
+            margin-left: 4rem;
+            background-color: #fff;
+
+            p {
+                padding-right: 10px;
+                font-weight: 600;
+                color: #666;
+            }
+        }
+
+
+        .el-timeline .history_timeline {
+            min-height: 1px;
+
+
+            .el-timeline {
+                transition: height 0.4s ease;
+            }
         }
     }
 
-    .el-main {
-        margin: auto;
-        padding: 0;
-        min-height: 300px;
-        width: 100%;
-        background-color: #F5F7FA;
+    .el-timeline::v-deep {
 
-        .aside {
-            border-radius: 25px 25px 25px 25px;
-            background-color: #fff;
-            min-height: 4rem;
-            padding-top:10px;
-            .header_button{
-                text-align: end;
-                margin-right: 4rem;
-                line-height: 2rem;
-            }
-        }
+        .el-timeline-item {
+            padding: 20px;
 
-        .historyList {
-            border-radius: 25px;
-            background-color: #fff;
-            padding: 10px 0;
-            margin-top: 40px;
-         
-            .historyToggleTitle {
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                width: 20%;
-                margin-left: 4rem;
-                background-color: #fff;
 
-                p {
-                    padding-right: 10px;
-                    font-weight: 600;
-                    color: #666;
-                }
-            }
-        }
 
-        .el-timeline::v-deep {
-         
-            transition: height 0.4s ease;
-            .el-timeline-item {
-                padding: 20px;
-              
+            .el-timeline-item__wrapper {
 
-                .el-timeline-item__tail {
-                    display: none;
+
+                .el-timeline-item__timestamp.is-top {
+                    text-align: left;
+                    font-weight: bold;
+                    padding-bottom: 20px;
                 }
 
-                .el-timeline-item__wrapper {
-                    
+                .el-timeline-item__content {
+                    font-size: 1.1rem;
+                    font-weight: normal;
+                    letter-spacing: 2px;
+                    text-align: left;
+                    align-items: center;
 
-                    .el-timeline-item__timestamp.is-top {
-                        text-align: left;
-                        font-weight: bold;
-                        padding-bottom: 20px;
+                    p {
+                        transition: all .2s ease;
+                        border-radius: 15px;
                     }
 
-                    .el-timeline-item__content {
-                        font-size: 1.1rem;
-                        font-weight: normal;
-                        letter-spacing: 2px;
-                        text-align: left;
-                        align-items: center;
+                    p:hover {
+                        transition: all .2s ease;
 
-                        p {
-                            padding: 20px;
-                            border-radius: 15px;
-                        }
+                        background-color: aliceblue;
+                        padding: 20px;
 
-                        p:hover {
-                            text-decoration: line-through;
-                            background-color: aliceblue;
-                            transition: all 0.2s ease;
-                        }
+                    }
 
-                        .active {
-                            text-decoration: line-through;
-                            background-color: aliceblue;
-                            transition: all 0.2s ease;
-                        }
+                    .active {
+                        padding: 20px;
+                        transition: all .2s ease;
+                        text-decoration: line-through;
+                        background-color: aliceblue;
+
                     }
                 }
-
             }
-        }
 
+        }
     }
+
 }
 </style>
