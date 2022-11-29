@@ -1,10 +1,18 @@
 # abledo-list
-    此项目为本人综合实训兼毕业设计项目，对VUE3/2使用的前瞻学习项目。在此项目中混合使用了Vue2的Option Api和Vue3的Composition API，同时使用了JS和TS。
+    此项目为对VUE3/2使用的前瞻学习项目。
+    
+    学习因素，所以混合使用了Vue2的Option Api和Vue3的Composition API，
+    
+    语法：
+    
+    同时使用了JS和TS。
 
+    框架：
+    
     使用了Vue3/Pinia/ElementUI/Ecahrts
 
     运行前请确保依赖安装
-    
+
 ## Project setup
 ```
 npm install
