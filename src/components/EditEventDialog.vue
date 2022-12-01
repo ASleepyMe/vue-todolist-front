@@ -5,7 +5,7 @@
     </div>
     <div class="container">
         <div class="head">
-            <div class="title"><p>新建待办</p></div>
+            <div class="title"><p><slot></slot></p></div>
             <div class="navigator">
                 <el-button
                 v-for="button in buttons"
@@ -83,7 +83,6 @@ let Toggle = reactive({
     level:false
 
 })
-
 
 const bgList = [
     {level:'info',color:'#909399'},

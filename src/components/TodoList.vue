@@ -3,8 +3,9 @@
 <template>
     <div>
 
-        <AddEvents v-if="isshow" @showClick="showClick" @addEvent="addEvent"></AddEvents>
+        <AddEvent v-if="isshow" @showClick="showClick" @addEvent="addEvent">新建待办</AddEvent>
 
+        <EditEvent v-if="isshowEdit" @showClick="showClick" >修改待办</EditEvent>
     </div>
     <div class="common-layout">
       
@@ -43,9 +44,9 @@
                                         <p> {{ activity.content
                                     }}</p>
                                         <div class = "item_content_controller">
-                                            <el-button type="primary" icon="Edit" circle />
-                                            <el-button type="danger" icon="Close" circle />
-                                            <el-button type="success" icon="finished" circle />
+                                            <el-button @click="showEditEventDialogBtn()" type="primary" icon="Edit" circle />
+                                            <el-button @click="deleteEventBtn(index)" type="danger" icon="Close" circle />
+                                            <el-button @click="finishedEventBtn(index)" type="success" icon="finished" circle />
                                         </div>
                                     </div>
                                     <el-divider border-style="dotted" />
@@ -90,15 +91,17 @@
 
 <script>
 import mitt from '../utils/mitt.js'
-import AddEvents from './AddEvents.vue';
+import AddEvent from './EditEventDialog.vue';
+import EditEvent from './EditEventDialog.vue';
 import useStore from '../store'
 
 
 export default {
-    components: { AddEvents },
+    components: { AddEvent,EditEvent },
     data() {
         return {
             isshow: false,
+            isshowEdit: false,
             activities: [],
             isActive: [],
             todayList: [],
@@ -131,7 +134,7 @@ export default {
 
             return this.activities.filter(function (item) {
 
-                return (item.status != 'doing')
+                return (item.status == 'finished')
             })
         },
 
@@ -150,8 +153,20 @@ export default {
     },
    
     methods: {
+        deleteEventBtn(e){
+            console.log(e);
+            console.log(this.showSelecteddayActivesList[e]);
+            this.showSelecteddayActivesList[e].status = 'deleted'
+        },
+        finishedEventBtn(e){
+            console.log(this.showSelecteddayActivesList);
+            this.showSelecteddayActivesList[e].status = 'finished'
+        },
         showAddEventDialog() {
             this.isshow = true
+        },
+        showEditEventDialogBtn() {
+            this.isshowEdit = true
         },
         deleteEvents() {
 
@@ -204,7 +219,7 @@ export default {
         showClick(val) {
 
             this.isshow = val.addEventDialog
-
+            this.isshowEdit = val.addEventDialog
         },
         addEvent(val) {
             useStore().user.addEventList(val.content)
@@ -338,6 +353,7 @@ export default {
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
+                       
                             .item_content_controller{
                                 
                                 display: none;
@@ -349,6 +365,10 @@ export default {
                   
                             background-color: aliceblue;
                             padding: 20px;
+                            p{
+                                transition: fadein 0.4s ease;
+                                width: 70%;
+                            }
                             .item_content_controller{
                                 display: block;
                                 transition: fadein 0.2s ease;
