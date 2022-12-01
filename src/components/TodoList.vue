@@ -367,10 +367,11 @@ export default {
                             padding: 20px;
                             p{
                                 transition: fadein 0.4s ease;
-                                width: 70%;
+                                max-width: 74%;
                             }
                             .item_content_controller{
                                 display: block;
+                                min-width: 20%;
                                 transition: fadein 0.2s ease;
                             }
                         }
