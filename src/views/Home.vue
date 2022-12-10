@@ -90,9 +90,9 @@
   }
   
   .el-main{
-    margin-left: 20rem;
+      margin-left: 20rem;
       width: 100%;
-     padding-right: 1=0px !important;
+  
    
   }
   

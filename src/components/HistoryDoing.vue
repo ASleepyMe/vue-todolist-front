@@ -1,7 +1,7 @@
 <template>
 
   <div class="headerSetting">
-    <span class="title"> |||    &nbsp;&nbsp;&nbsp;检索条件设置</span> 
+    <span class="title"> &nbsp;&nbsp;&nbsp;检索条件设置</span> 
 
     <div class="settingOptions">
       <el-select v-model="value" class="m-2" placeholder="等级" size="large">
@@ -31,22 +31,23 @@
   <el-table  :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)"  style="width: 100%;height: 100%;" :key="free">
     <el-table-column prop="level" label="等级" width="200"
      :formatter="levelFormat" />
-    <el-table-column prop="timestamp" label="日期" width="400" />
+    <el-table-column prop="timestamp" label="创建日期" width="400" />
 
     <el-table-column prop="content" label="内容" width="800" />
-    <el-table-column prop="status" label="状态"
+    <el-table-column prop="status" label="任务状态"
       :filters="[
         {text:'已完成',value:'finished'},
-        {text:'进行中',value:'doing'}
+        {text:'进行中',value:'doing'},
+        {text:'被删除',value:'deleted'}
       ]"
         :filter-method="filterTag"
         filter-placement="bottom-end" 
       >
         <template #default="scope">
           <el-tag
-            :type="scope.row.status === 'finished' ? 'info' : 'success'"
+            :type="scope.row.status === 'finished' ? 'info' : (scope.row.status === 'doing' ? 'success' : 'danger')"
             disable-transitions
-            >{{ scope.row.status==='finished'?'已完成':'进行中' }}</el-tag
+            >{{ scope.row.status==='finished'?'已完成':( scope.row.status === 'doing'?'进行中':'被删除') }}</el-tag
           >
         </template>
       </el-table-column>
@@ -72,7 +73,7 @@
     />
     </div>
 
-    <div :style="{'height':'36px'}"> 
+    <div class="paginationToggle" :style="{'height':'36px'}"> 
       <el-switch v-model="switchPage" /> <span>分页器</span>
     </div>
 
@@ -108,6 +109,8 @@
     value:'doing',label:'进行中'
   },{
     value:'finished',label:'已完成'
+  },{
+    value:'deleted',label:'被删除'
   }]
 
   const filterTag = (value, row) => {
@@ -153,27 +156,37 @@
     align-items: center;
     justify-content: space-between;
     margin-top: 10px;
-
+    .paginationToggle{
+ 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
   .headerSetting{
     display: flex;
     justify-content: start-flex;
     align-items: center;
+    
     .settingOptions{
-      margin-right: 500px;
-      flex:3;
+     text-align: left;
+      flex:5;
 
       .ml-4{
         margin-left: 20px;
       }
     }
     span.title{
-      flex: 1;
+      flex:1;
       font-weight: 600;
     }
 
     button{
       flex:0.5
+    }
+
+    .buttonGroup{
+      flex:1
     }
   }
     .el-timeline::v-deep{

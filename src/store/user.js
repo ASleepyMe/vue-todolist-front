@@ -5,6 +5,7 @@ import {defineStore} from 'pinia'
             
             isLogin:'',
             todolist:[ {
+              // content —— 内容
                 content: '说不上恨别揪蝉，就一点喜欢',
                 timestamp: '2022-10-28',
                 size: 'large',

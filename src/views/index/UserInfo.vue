@@ -9,170 +9,52 @@
                 </div>
             </el-header>
             <el-main>
-                <div style="background-color:#FCFCFC;font-family:'宋体';height:100%;">
-        <div>
-            <my-bread level1='个人中心' level2='修改密码' :level3="levelName"></my-bread>
-        </div>
-        <div style="margin-top:25px;margin-left:80px;">
-            <el-row :gutter="10">
-                <el-col :span="2">
-                    <div style="background-color:#FFEBCD;width:60px;height:60px;display:inline-block;border-radius:50%;overflow:hidden;">
-                        <el-avatar  style="width:60px;height:60px;"></el-avatar>
-                    </div>
-                    <div style="margin-top:5px;margin-left:6px;"><span>王某某</span></div>
-                    <div style="margin-top:50px;margin-left:1px;"><el-button type="text" style="font-size:15px;color:#4D4D4D;"  @click="infomationClick()">个人信息<span style="color:#B0E0E6;" v-show="infomationShow" class="el-icon-s-promotion"></span></el-button></div>
-                    <div style="margin-top:5px;margin-left:1px;"><el-button type="text" style="font-size:15px;color:#4D4D4D;" @click="passwordClick()">修改密码<span style="color:#B0E0E6;" v-show="passwordShow" class="el-icon-s-promotion"></span></el-button></div>
-                </el-col>
-
-                <el-col :span="21">
-                    <el-row :gutter="10" style="margin-top:20px;">
-                        <el-col :span="2"><div style="text-align:right;"><span>账号：</span></div></el-col>
-                        <el-col :span="5">0000000000</el-col>
+                <el-avatar :size="80" icon="UserFilled" >{{username}}</el-avatar>
+                <div>
+                    <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px"
+                    label-position="left">
+                    <el-form-item label="上传" prop="field104" required>
+                        <el-upload ref="field104" :file-list="field104fileList" :action="field104Action"
+                        :before-upload="field104BeforeUpload">
+                        <el-button size="small" type="primary" icon="el-icon-upload">点击上传</el-button>
+                        </el-upload>
+                    </el-form-item>
+                    <el-form-item label="用户昵称" prop="field103">
+                        <el-input v-model="formData.field103" placeholder="请输入用户昵称" clearable :style="{width: '100%'}">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="用户名" prop="field102">
+                        <el-input v-model="formData.field102" placeholder="请输入用户名" clearable :style="{width: '100%'}">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="刻码" prop="field109">
+                        <el-input v-model="formData.field109" placeholder="请输入刻码" :disabled='true' clearable
+                        :style="{width: '100%'}"></el-input>
+                    </el-form-item>
+                    <el-form-item label="手机号" prop="mobile">
+                        <el-input v-model="formData.mobile" placeholder="请输入手机号手机号" :maxlength="11" show-word-limit
+                        :disabled='true' clearable prefix-icon='el-icon-mobile' :style="{width: '100%'}"></el-input>
+                    </el-form-item>
+                    <el-form-item label="密码" prop="field101">
+                        <el-input v-model="formData.field101" placeholder="请输入密码" clearable prefix-icon='el-icon-key'
+                        show-password :style="{width: '100%'}"></el-input>
+                    </el-form-item>
+                    <el-form-item label="接受事件委派" prop="field106">
+                        <el-switch v-model="formData.field106"></el-switch>
+                    </el-form-item>
+                    <el-row type="flex" justify="end" align="middle">
+                        <el-col :span="5">
+                        <el-form-item label="" prop="field117">
+                            <el-button type="primary" size="medium"> 保存更改 </el-button>
+                        </el-form-item>
+                        </el-col>
                     </el-row>
-                    <!-- 个人信息 -->
-                    <el-row v-show="infomationShow">
-                        <el-card style="margin-top:30px;">
-                            <el-row>
-                                <el-col :span="6">
-                                    <el-row :gutter="12" style="margin-top:20px;">
-                                        <el-col :span="8"><div style="text-align:right;"><span>姓名：</span></div></el-col>
-                                        <el-col :span="16">王某某</el-col>
-                                    </el-row>
-                                    <el-row :gutter="12" style="margin-top:30px;">
-                                        <el-col :span="8"><div style="text-align:right;"><span>手机号：</span></div></el-col>
-                                        <el-col :span="16">17125463265</el-col>
-                                    </el-row>
-                                    <el-row :gutter="12" style="margin-top:30px;">
-                                        <el-col :span="8"><div style="text-align:right;"><span>电子邮箱：</span></div></el-col>
-                                        <el-col :span="16">2036128127@qq.com</el-col>
-                                    </el-row>
-                                    <el-row :gutter="12" style="margin-top:30px;">
-                                        <el-col :span="8"><div style="text-align:right;"><span>部门：</span></div></el-col>
-                                        <el-col :span="16">某某管理中心</el-col>
-                                    </el-row>
-                                    <el-row :gutter="12" style="margin-top:30px;">
-                                        <el-col :span="8"><div style="text-align:right;"><span>职位：</span></div></el-col>
-                                        <el-col :span="16">部门负责人</el-col>
-                                    </el-row>
-                                    <el-row :gutter="12" style="margin-top:30px;">
-                                        <el-col :span="8"><div style="text-align:right;"><span>项目：</span></div></el-col>
-                                        <el-col :span="16">某某107项目</el-col>
-                                    </el-row>
-                                </el-col>
-                                <el-col :span="18">
-                                    <el-row>
-                                        <el-col>
-                                            <el-timeline>
-                                                <el-timeline-item timestamp="项目一" placement="top">
-                                                    <el-card>
-                                                        <div><span><span style="font-family:'宋体';font-size:15px;"><strong>项目名称</strong></span><span style="font-family:'宋体';font-size:12px;margin-left:20px;"><strong>管理单位</strong></span></span></div>
-                                                        <div><span>项目创建时间</span>/<span>项目竣工时间</span>/<span>角色</span>/<span>周期</span></div>
-                                                    </el-card>
-                                                </el-timeline-item>
-                                                <el-timeline-item timestamp="项目二" placement="top">
-                                                    <el-card>
-                                                        <div><span><span style="font-family:'宋体';font-size:15px;"><strong>项目名称</strong></span><span style="font-family:'宋体';font-size:12px;margin-left:20px;"><strong>管理单位</strong></span></span></div>
-                                                        <div><span>项目创建时间</span>/<span>项目竣工时间</span>/<span>角色</span>/<span>周期</span></div>
-                                                    </el-card>
-                                                </el-timeline-item>
-                                                <el-timeline-item timestamp="项目三" placement="top">
-                                                    <el-card>
-                                                        <div><span><span style="font-family:'宋体';font-size:15px;"><strong>项目名称</strong></span><span style="font-family:'宋体';font-size:12px;margin-left:20px;"><strong>管理单位</strong></span></span></div>
-                                                        <div><span>项目创建时间</span>/<span>项目竣工时间</span>/<span>角色</span>/<span>周期</span></div>
-                                                    </el-card>
-                                                </el-timeline-item>
-                                                <el-timeline-item timestamp="项目四" placement="top">
-                                                    <el-card>
-                                                        <div><span><span style="font-family:'宋体';font-size:15px;"><strong>项目名称</strong></span><span style="font-family:'宋体';font-size:12px;margin-left:20px;"><strong>管理单位</strong></span></span></div>
-                                                        <div><span>项目创建时间</span>/<span>项目竣工时间</span>/<span>角色</span>/<span>周期</span></div>
-                                                    </el-card>
-                                                </el-timeline-item>
-                                                <el-timeline-item timestamp="项目五" placement="top">
-                                                    <el-card>
-                                                        <div><span><span style="font-family:'宋体';font-size:15px;"><strong>项目名称</strong></span><span style="font-family:'宋体';font-size:12px;margin-left:20px;"><strong>管理单位</strong></span></span></div>
-                                                        <div><span>项目创建时间</span>/<span>项目竣工时间</span>/<span>角色</span>/<span>周期</span></div>
-                                                    </el-card>
-                                                </el-timeline-item>
-                                            </el-timeline>
-                                        </el-col>
-                                    </el-row>
-                                </el-col>
-                            </el-row>
-                        </el-card>
-                    </el-row>
-                    <!-- 修改密码 -->
-                    <el-row v-show="passwordShow">
-                        <el-card style="margin-top:30px;">
-                            <el-form :model="personalForm">
-                                <el-row :gutter="12" style="margin-top:20px;">
-                                    <el-col :span="6">
-                                        <div style="text-align:right;"><span>账号：</span></div>
-                                    </el-col>
-                                    <el-col :span="5">
-                                        <el-form-item prop="account">
-                                            <el-input type="text" v-model="personalForm.account" placeholder="请输入您的账号" ></el-input>
-                                        </el-form-item>
-                                    </el-col>
-                                </el-row>
-                                <el-row :gutter="12" style="margin-top:1px;">
-                                    <el-col :span="6">
-                                        <div style="text-align:right;"><span>手机号：</span></div>
-                                    </el-col>
-                                    <el-col :span="5">
-                                        <el-form-item prop="phone_num">
-                                            <el-input type="text" v-model="personalForm.phone_num" placeholder="绑定的手机号" ></el-input>
-                                        </el-form-item>
-                                    </el-col>
-                                </el-row>
-                                <el-row :gutter="12" style="margin-top:1px;">
-                                    <el-col :span="6">
-                                        <div style="text-align:right;"><span>密码：</span></div>
-                                    </el-col>
-                                    <el-col :span="5">
-                                        <el-form-item prop="password1">
-                                            <el-input type="password" show-password v-model="personalForm.password1" placeholder="请输入新的密码" ></el-input>
-                                        </el-form-item>
-                                    </el-col>
-                                </el-row>
-                                <el-row :gutter="12" style="margin-top:1px;">
-                                    <el-col :span="6">
-                                        <div style="text-align:right;"><span>确认密码：</span></div>
-                                    </el-col>
-                                    <el-col :span="5">
-                                        <el-form-item prop="password2">
-                                            <el-input type="password" show-password v-model="personalForm.password2" placeholder="请再次输入新的密码" ></el-input>
-                                        </el-form-item>
-                                    </el-col>
-                                </el-row>
-                                <el-row :gutter="12" style="margin-top:1px;">
-                                    <el-col :span="6">
-                                        <div style="text-align:right;"><span>验证码：</span></div>
-                                    </el-col>
-                                    <el-col :span="5">
-                                        <el-form-item prop="verification">
-                                            <el-input type="text" v-model="personalForm.verification" placeholder="验证码" ></el-input>
-                                        </el-form-item>
-                                    </el-col>
-                                    <el-col :span="2">
-                                        <el-button type="primary" plain round size="medium" @click="sendMsg()" :disabled="isDisabled">{{ buttonName }}</el-button>
-                                    </el-col>
-                                </el-row>
-                                <el-row :gutter="12" style="margin-top:10px;">
-                                    <el-col :span="17" style="text-align:center;">
-                                        <el-button type="primary" plain round size="medium" @click="submit()">修改</el-button>
-                                    </el-col>
-                                </el-row>
-                            </el-form>
-                        </el-card>
-                    </el-row>
-                </el-col>
-            </el-row>
-        </div>
-        
-        <div>
-
-        </div>
-    </div>
+                    <el-form-item size="large">
+                        <el-button type="primary" @click="submitForm">提交</el-button>
+                        <el-button @click="resetForm">重置</el-button>
+                    </el-form-item>
+                    </el-form>
+                </div>
             </el-main>
         </el-container>
     </div>
@@ -182,102 +64,71 @@
 
 <script>
 export default {
-    data(){
-        return {
-
-            levelName:'',
-            isCollapse:false,
-            infomationShow:false,
-            passwordShow:false,
-            buttonName:"发送短信",
-            isDisabled:false,
-            time:60,
-            personalForm:{
-                account:"",
-                phone_num:"",
-                verification:"",
-                password1:"",
-                password2:"",
-            }
-        }
-    },
-    methods:{
-        handleOpen(key, keyPath) {
-            console.log(key, keyPath)
-            console.log(key)
-            console.log(keyPath)
-        },
-        handleClose(key, keyPath) {
-            console.log(key, keyPath);
-        },
-
-        infomationClick(){    //个人信息事件
-            this.infomationShow = true
-            this.passwordShow = false
-        },
-        
-        passwordClick(){     //密码事件
-            this.infomationShow = false
-            this.passwordShow = true
-        },
-        sendMsg() {    //时间按钮
-            let me = this;
-            me.isDisabled = true;
-            let interval = window.setInterval(function() {
-                me.buttonName = "(" + me.time + ")秒"
-                --me.time;
-                if(me.time < 0) {
-                    me.buttonName = "重新发送"
-                    me.time = 60
-                    me.isDisabled = false
-                    window.clearInterval(interval)
-                }
-            }, 1000);
-            //获取短信验证码
-            // this.$http.get('/?phone_num=' + this.personalForm.phone_num).then(res => {
-            //     this.$message.success("短信已发送,请查收")
-            // })
-        },
-        submit(){  //提交
-            if(this.personalForm.account === ""){
-                this.$message.warning("账号不能为空")
-            }else if(this.personalForm.phone_num === ""){
-                this.$message.warning("手机号不能为空")
-            }else if(this.personalForm.password1 === ""){
-                this.$message.warning("密码不能为空")
-            }else if(this.personalForm.password2 === ""){
-                this.$message.warning("密码不能为空")
-            }else if(this.personalForm.verification === ""){
-                this.$message.warning("验证码不能为空")
-            }else{
-                if(this.personalForm.password1 === this.personalForm.password2){
-                    this.$message.success("修改成功")
-                    // const params = {
-                    //     account:this.personalForm.account,
-                    //     phone_num:this.personalForm.phone_num,
-                    //     password1:this.personalForm.password1,
-                    //     password2:this.personalForm.password2,
-                    //     verification:this.personalForm.verification,
-                    // }
-                    // console.log(params)
-                    // this.$http.post('',params).then(res => {
-                    //     console.log(res)
-                    // })
-                }else{
-                    this.$message.warning("两次输入的密码不一致,请重新输入")
-                }
-                
-            }
-        },
- 
+  components: {},
+  props: [],
+  data() {
+    return {
+      formData: {
+        field104: null,
+        field103: undefined,
+        field102: undefined,
+        field109: undefined,
+        mobile: undefined,
+        field101: undefined,
+        field106: false,
+        field117: undefined,
+      },
+      rules: {
+        field103: [{
+          required: true,
+          message: '请输入用户昵称',
+          trigger: 'blur'
+        }],
+        field102: [{
+          required: true,
+          message: '请输入用户名',
+          trigger: 'blur'
+        }],
+        field109: [],
+        mobile: [{
+          pattern: /^1(3|4|5|7|8|9)\d{9}$/,
+          message: '手机号格式错误',
+          trigger: 'blur'
+        }],
+        field101: [],
+      },
+      field104Action: 'https://jsonplaceholder.typicode.com/posts/',
+      field104fileList: [],
     }
+  },
+  computed: {},
+  watch: {},
+  created() {},
+  mounted() {},
+  methods: {
+    submitForm() {
+      this.$refs['elForm'].validate(valid => {
+        if (!valid) return
+        // TODO 提交表单
+      })
+    },
+    resetForm() {
+      this.$refs['elForm'].resetFields()
+    },
+    field104BeforeUpload(file) {
+      let isRightSize = file.size / 1024 / 1024 < 2
+      if (!isRightSize) {
+        this.$message.error('文件大小超过 2MB')
+      }
+      return isRightSize
+    },
+  }
 }
 
 </script>
 
 <style scoped lang="less">
-    .name{ text-align: right; }
-    .value{ text-align: left; }
+
 .el-container {
     margin-top: 2rem;
     --el-header-height:auto;
@@ -290,10 +141,15 @@ export default {
 
     .el-main {
         margin: 0;
-
+        width: 100%;
         height: 100vh;
         background-color: #ffff;
         border-radius: 25px 0px 0 0;
+
+        .el-upload__tip {
+            line-height: 1.2;
+        }
+
     }
 }
 </style>

@@ -5,7 +5,7 @@
 
 <script>
 import useStore from '../store'
-import mitt from '../utils/mitt'
+// import mitt from '../utils/mitt'
 export default {
     data(){
         return{
@@ -18,13 +18,14 @@ export default {
         this.completed = useStore().user.computedStatusPercents[1]
         this.failed = useStore().user.computedStatusPercents[0],
 
-        mitt.on('updateChartsData', (res) => {
-          if(res){
-            console.log(res);
-            this.completed = useStore().user.computedStatusPercents[1]
-            this.failed = useStore().user.computedStatusPercents[0]
-          }
-        })
+        // mitt.on('updateChartsData', (res) => {
+        //   if(res){
+        //     console.log(res);
+        //     this.completed = useStore().user.computedStatusPercents[1]
+        //     this.failed = useStore().user.computedStatusPercents[0]
+        //   }
+        // })
+        
         this.initEcharts();
     },
     methods:{
