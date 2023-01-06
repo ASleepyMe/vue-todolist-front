@@ -2,41 +2,47 @@
 
 
     <div class="common-layout">
-        <el-container>
-            <el-header>
-                <div class="title">
-                    <h2>我的待办事项</h2>
-                </div>
-            </el-header>
-            <el-main>
-
-                <div class="leftcontainer">
-                    <div class="calendarModule">
-                     <CalandarPlus></CalandarPlus>
+      
+            <el-container>
+                <el-header>
+                    <div class="title">
+                        <h2>我的待办事项</h2>
                     </div>
+                </el-header>
 
-                    <div class="todolist">
-                        <TodoList></TodoList>
-                    </div>
+                <el-scrollbar height="100%">
+                    <el-main>
 
-                    <div class="space"></div>
-                </div>
+                        <div class="leftcontainer">
+                            <div class="calendarModule">
+                            <CalandarPlus></CalandarPlus>
+                            </div>
 
-                <div class="rightcontainer">
-                    <div class="circleCharts">
-                        <div class="title">目前事务完成度</div>
-                       
+                            <div class="todolist">
+                                <TodoList></TodoList>
+                            </div>
 
-                    <CircleRating></CircleRating>
-                 
-                    </div>
+                            <div class="space"></div>
+                        </div>
 
-                    <div id="he-plugin-standard"></div>
-                </div>
+                        <div class="rightcontainer">
+                            <div class="circleCharts">
+                                <div class="title">目前事务完成度</div>
+                            
 
-                
-            </el-main>
-        </el-container>
+                            <CircleRating></CircleRating>
+                        
+                            </div>
+
+                            <div id="he-plugin-standard"></div>
+                        </div>
+
+                    
+                    </el-main>
+                </el-scrollbar>
+
+            </el-container>
+      
     </div>
 
 
@@ -80,6 +86,7 @@ export default {
 
 .el-container {
     margin-top: 2rem;
+
     --el-header-height:auto;
     .el-header {
 
@@ -92,12 +99,12 @@ export default {
         // margin-right: 20px !important;
         margin: 0;
         padding: 0;
-        
+        overflow-y:scroll;
         display: flex;
         justify-content: space-between;
-
+        
         // background-color: #fff;
-        border-radius: 25px 0px 0 0;
+
         // margin: -20px;
         .leftcontainer{
                 width: 74%;

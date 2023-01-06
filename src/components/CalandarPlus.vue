@@ -537,7 +537,7 @@ import mitt from '../utils/mitt.js';
             line-height: 36px;
             overflow: hidden;
             border-radius: 50%;
-            transition: all 1s ease;
+            transition: all 0.4s ease;
 
           
             &.choose {

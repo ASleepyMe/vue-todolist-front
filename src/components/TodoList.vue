@@ -307,16 +307,16 @@ export default {
            .slide_list{
             min-width: 100%;
             .OffToggle{
-                height: 0;
-                overflow: hidden;
-                transition: height 0.8s ease;
+                max-height:2px;
+               overflow: hidden;
+               transition: max-height 1s ease;
             }
                 
                
                 .OnToggle{
                     background-color: #fff;
-                    transition: height 1s ease;
-                    height:2000px;
+                    transition: max-height 1s ease;
+                    max-height: 4000px;
                     overflow: hidden;
                 }
            }

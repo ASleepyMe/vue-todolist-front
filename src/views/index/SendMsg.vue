@@ -57,7 +57,7 @@
     </el-col>
     <el-col :span="24">
       <el-form-item size="large">
-        <el-button type="primary" @click="submitForm">保存</el-button>
+        <el-button type="primary" @click="submitForm">保存y</el-button>
         <el-button @click="resetForm">重置</el-button>
       </el-form-item>
     </el-col>

@@ -11,7 +11,9 @@
   
         </el-aside>
         
-        <el-main>   <router-view /> </el-main>
+       
+          <el-main>   <router-view />   </el-main>
+      
       </el-container>
     </div>
   
@@ -92,7 +94,8 @@
   .el-main{
       margin-left: 20rem;
       width: 100%;
-  
+
+      padding: 17px;
    
   }
   
@@ -100,11 +103,11 @@
   /*设置宽度,轨道颜色*/
   ::-webkit-scrollbar {
       width: 10px;
-      height: 10px;
+
       background: #F5F7FA;   /*可以设置轨道颜色*/
       padding-right: 2px;
   }
-   
+ 
   /*滚动条*/
   ::-webkit-scrollbar-thumb {
       background: #ccc;
