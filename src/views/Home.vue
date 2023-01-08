@@ -30,16 +30,17 @@
       data(){
         return{
           isLogin:false,
+          keepLogin:false,
         }
       },
       mounted(){
         this.isLogin = useStore().user.getLoginStatus
-     
-          if(!this.isLogin)
-            {this.$message.error('请登陆')
-             this.$router.push('/login')
+        this.keepLogin = useStore().user.getKeepLoginStatus
+          if(this.keepLogin)
+            { this.$router.push('/todo')
           }else{
-            this.$router.push('/todo')
+            this.$message.error('请登陆')
+             this.$router.push('/login')
           }
       }
   }

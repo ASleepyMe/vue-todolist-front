@@ -4,6 +4,8 @@ import {defineStore} from 'pinia'
     state:() => ({
             
             isLogin:'',
+
+            keepLogin:false,
             todolist:[ {
               // content —— 内容
                 content: '说不上恨别揪蝉，就一点喜欢',
@@ -53,6 +55,8 @@ import {defineStore} from 'pinia'
     getters: {
         getLoginStatus: state => state.isLogin,
         
+        getKeepLoginStatus: state => state.keepLogin,
+
         getLocalLoginStatus: (state) => (state.isLogin) = localStorage.getItem('isLogin'),
 
         getSelectedDay : state => state.selectDay,
@@ -111,11 +115,13 @@ import {defineStore} from 'pinia'
    
             this.isLogin = true; 
         },
-        
+        setKeepLoginStatus(val){
+          this.keepLogin = val; 
+        },
         clearStatus(){
       
             this.isLogin = false;
-           
+            this.keepLogin = false; 
         },
         setSelectDay(val){
 
