@@ -6,6 +6,11 @@ const routes = [{
     component:()  => import('../views/LoginView.vue')
     },
     {
+    path:'/register',
+    name:'register',
+    component:()  => import('../views/RegisterView.vue')
+    },
+    {
     path:'/',
     name:'Home',
     component:() => import('../views/Home.vue'),
@@ -48,5 +53,20 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes,
 });
+
+router.beforeEach((to, from, next) => {
+
+    if (to.meta.isAuth) {//判断当前路由是否需要权限控制
+        if(localStorage.getItem('authName')==='admin'){//权限控制的具体规则
+            next()//旅行
+        }else{
+            alert('暂无权限查看')
+        }
+
+    } else {
+        next();
+    }
+})
+
 
 export default router;

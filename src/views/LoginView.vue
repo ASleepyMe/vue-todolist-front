@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div class="bg-ele"></div>
     <div class="login-card">
       <div class="login-block">
         <h1>登陆</h1>
@@ -41,18 +42,14 @@
         <div class="title">
           <h2>欢迎您使用！</h2>
           <p>如果你没有账号，你想要现在注册一个吗？</p>
-          <el-button  type="primary"  text >注册</el-button>
+          <el-button  type="primary" @click="router.push('/register')" text >注册</el-button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
 
-}
-</script>
 
 <style lang="less" scoped>
 * {
@@ -83,10 +80,12 @@ export default {
         { flex: 1;
           padding: 0 100px;
             h1{
+              text-align: left;
                 margin-bottom: 10px;
             }
 
             p{
+              text-align: left;
                 padding-top: 1rem 0;
             }
 
@@ -95,7 +94,9 @@ export default {
                 .form-item{
                     padding: 10px 0;
                 }
-              
+              .form-checkbox-item{
+                text-align: left;
+              }
                 .flex{
                   display: flex;
                   margin-top: 20px;
@@ -132,10 +133,31 @@ export default {
     justify-content: center;
     z-index: 0;
     .title{
+      width: 40%;
+      text-align: left;
       z-index: 999;
       h2,p,a{
-        padding-top: 10px;
-      }
+    
+    padding-top: 10px;
+  }
+
+  h2{
+      font-size: 2rem;
+  }
+  p{
+      font-size: 1rem;
+  }
+      .el-button{
+            margin-top: 10px;
+            font-size: 1rem;
+          
+        }
+        .el-button:hover{
+            color: #fff;
+            border-radius: 1px solid #ccc;
+            background-color: var(--el-color-primary);
+            padding: 10px;
+        }
     }
   }
   .register::after{
@@ -146,8 +168,8 @@ export default {
   
   }
 }
-.container:after {
-  content: "";
+.bg-ele {
+  
   position: fixed;
   inset: 0;
   background: linear-gradient(240deg, #a1c4fd,var(--el-color-primary),#2980b9, #c2e9fb);;
@@ -209,15 +231,15 @@ import { useRouter } from "vue-router";
 
 
 const router = useRouter();
-let rememberMe = ref()
+let rememberMe = ref(true)
 const userStatus = (useStore().user)
 const loginForm = reactive({
   account:'',
   password:''
 })
 onMounted(()=>{
-  console.log(useStore().user.getKeepLoginStatus);
-      if(useStore().user.getKeepLoginStatus){
+  
+      if(useStore().user.getKeepLoginStatus && useStore().user.getLoginStatus){
  
         router.push('/todo')}
 })
@@ -229,8 +251,6 @@ function toLogin(){
     userStatus.setLoginSuccessStatus()
     if(rememberMe.value)
     {
-      
-      
       userStatus.setKeepLoginStatus(true)
       ElMessage.success('登陆成功')
       router.push('/todo')

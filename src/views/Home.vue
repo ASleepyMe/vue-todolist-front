@@ -21,10 +21,12 @@
   </template>
   
   <script>
-  import Nav from "../components/Nav.vue";
-  import useStore from '../store'
+
+import Nav from "../components/Nav.vue";
+import useStore from '../store'
   
   export default {
+
       name: "App",
       components: { Nav },
       data(){
@@ -34,13 +36,25 @@
         }
       },
       mounted(){
-        this.isLogin = useStore().user.getLoginStatus
-        this.keepLogin = useStore().user.getKeepLoginStatus
-          if(this.keepLogin)
-            { this.$router.push('/todo')
+        // this.isLogin = useStore().user.getLoginStatus
+        // this.keepLogin = useStore().user.getKeepLoginStatus
+        //   if(this.keepLogin)
+        //     { this.$router.push('/todo')
+        //   }else{
+        //     this.$message.error('请登陆')
+        //      this.$router.push('/login')
+        //   }
+      },
+      beforeRouteEnter(to,from,next){
+        
+          if (useStore().user.getLoginStatus) {
+              next()
           }else{
-            this.$message.error('请登陆')
-             this.$router.push('/login')
+            
+            // this.$message.error('请登陆')
+          
+            next('/login')
+            
           }
       }
   }
