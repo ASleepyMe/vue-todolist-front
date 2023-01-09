@@ -60,7 +60,7 @@ import useStore from '../store'
   }
   </script>
   
-  <style lang="less">
+  <style lang="less" scoped>
   @import "../assets/fonts/index.css";
   
    .el-divider :v-deep{

@@ -403,4 +403,19 @@ export default {
         opacity: 1;
     }
 }
+
+  /*设置宽度,轨道颜色*/
+  ::-webkit-scrollbar {
+      width: 10px;
+
+      background: #F5F7FA;   /*可以设置轨道颜色*/
+      padding-right: 2px;
+  }
+ 
+  /*滚动条*/
+  ::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 10px;
+  }
+  
 </style>

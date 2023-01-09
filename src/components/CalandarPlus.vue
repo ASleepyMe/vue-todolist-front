@@ -190,11 +190,11 @@ import mitt from '../utils/mitt.js';
     },
     methods: {
       toToday(today){
-        
-         if((today.date) < 10 && this.Tag == 0  ){
+         console.log(today)
+         if((today.date) < 10 && this.Tag == 0 && today.month <10  ){
+          today.month = '0' + today.month
           today.date = '0' + today.date
-          console.log(today.date);
-          console.log()
+       
           this.Tag++
          }
 
@@ -337,7 +337,7 @@ import mitt from '../utils/mitt.js';
       },
       // 点击回调
       selectOne(i) {
-        console.log(i);
+     
         let markDay = this.isMarkDay(i.year, i.month, i.date);
 
         

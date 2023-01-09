@@ -60,7 +60,7 @@ export default {
                 },
                 {
                     icon: "Finished",
-                    value: "历史完成项",
+                    value: "历史项",
                     to: "/history",
                 },
                 {

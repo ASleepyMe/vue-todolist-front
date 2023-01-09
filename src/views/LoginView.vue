@@ -14,6 +14,7 @@
                 class="w-50 m-2"
                 placeholder="用户名"
                 prefix-icon="user"
+                
                 />
             </el-form-item>
           </div>
@@ -24,6 +25,7 @@
                 size="large"
                 class="w-50 m-2"
                 placeholder="密码"
+                type="password"
                 prefix-icon="key"
                 />
             </el-form-item>
@@ -34,7 +36,7 @@
           </div>
           <div class="flex">
             <el-button  type="primary" @click="toLogin">登陆</el-button>
-            <a href="#">忘记密码，点我重置！</a>
+            <a href="#" @click="test()">忘记密码，点我重置！</a>
           </div>
         </el-form>
       </div>
@@ -243,6 +245,12 @@ onMounted(()=>{
  
         router.push('/todo')}
 })
+
+function test(){
+  loginForm.account='admin'
+  loginForm.password='123'
+  alert('已填写测试帐号')
+}
 function toLogin(){
 
   if(loginForm.account=='admin' && loginForm.password=='123')
